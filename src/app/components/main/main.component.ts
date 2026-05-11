@@ -1,26 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { Data } from 'src/app/shared/models/dataModel';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { Component, OnInit } from "@angular/core";
+import { Data } from "src/app/shared/models/dataModel";
+import { ApiService } from "src/app/shared/services/api.service";
 import { renderChart } from "../../shared/utils/chart";
-import { groupByDay, sortByTime, getReadings } from "../../shared/utils/reading";
+import {
+  groupByDay,
+  sortByTime,
+  getReadings,
+} from "../../shared/utils/reading";
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  selector: "app-main",
+  templateUrl: "./main.component.html",
+  styleUrls: ["./main.component.scss"],
 })
-export class MainComponent {
-  chartData: Data[] = [];
-  constructor(private api: ApiService) { 
-    this.createChart();
+export class MainComponent implements OnInit {
+  chartData: any[] = [];
+  private containerId = "chart";
+
+  constructor(private api: ApiService) {}
+
+  ngOnInit() {
+    this.updateChart(30);
   }
 
-  async createChart() {
-    const readings = await getReadings();
-    const containerId = "chart";
+  async updateChart(days: number) {
+    const totalHoursNeeded = (days + 2) * 24;
+    const readings = await getReadings(totalHoursNeeded);
     this.chartData = readings;
     this.api.getReadings$.next(readings);
-    renderChart(containerId, sortByTime(groupByDay(readings)).slice(-30));
+    const grouped = groupByDay(readings);
+    const processedData = sortByTime(grouped).slice(-days);
+    renderChart(this.containerId, processedData);
   }
-
 }

@@ -16,10 +16,27 @@
                 bg-blue
                 white
                 bold
-              ">
+              " (click)="updateChart(30)">
         Last 30 days
       </button>
+      <button class="
+                h5
+                inline-block
+                shadow-2
+                pl2
+                pr2
+                pt1
+                pb1
+                roundedMore
+                border-grey
+                bg-blue
+                white
+                bold
+              " (click)="updateChart(60)">
+        Last 60 days
+      </button>
     </section>
+    <section></section>
     <section class="chartHeight mb3">
       <app-chart [chartData]="chartData"></app-chart>
     </section>

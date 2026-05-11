@@ -1,49 +1,36 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { Component } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { Data } from "src/app/shared/models/dataModel";
 import { ApiService } from "src/app/shared/services/api.service";
+
+interface Stats {
+  consumption: string;
+  cost: string;
+  co2: string;
+}
 
 @Component({
   selector: "app-stats",
   templateUrl: "./stats.component.html",
-  styleUrls: ["./stats.component.scss"], 
+  styleUrls: ["./stats.component.scss"],
 })
-export class StatsComponent implements OnInit, OnDestroy {
-  stats = {
-    consumption: 0,
-    cost: 0,
-    co2: 0,
-  };
-
-  private readonly CURRENCY = { code: 'USD', symbol: '$', pricePerKwh: 0.12 };
+export class StatsComponent {
+  private readonly PRICE_PER_KWH = 0.12;
   private readonly CO2_PER_KWH = 0.6;
-  private destroy$ = new Subject<void>();
+
+  readonly stats$: Observable<Stats> = this.api.getReadings$.pipe(
+    map(readings => this.calculateStats(readings || []))
+  );
 
   constructor(private api: ApiService) {}
 
-  ngOnInit(): void {
-    this.api.getReadings$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        if (data && Array.isArray(data)) {
-          this.calculateStats(data);
-        }
-      });
-  }
-
-  private calculateStats(readings: Data[]): void {
-    const consumption = readings.reduce((sum, reading) => sum + reading.value, 0);
-    
-    this.stats = {
-      consumption: Math.round(consumption * 100) / 100,
-      cost: Math.round(consumption * this.CURRENCY.pricePerKwh * 100) / 100,
-      co2: Math.round(consumption * this.CO2_PER_KWH * 100) / 100,
+  private calculateStats(readings: Data[]): Stats {
+    const totalConsumption = readings.reduce((sum, r) => sum + r.value, 0);
+    return {
+      consumption: totalConsumption.toFixed(2),
+      cost: (totalConsumption * this.PRICE_PER_KWH).toFixed(2),
+      co2: (totalConsumption * this.CO2_PER_KWH).toFixed(2),
     };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

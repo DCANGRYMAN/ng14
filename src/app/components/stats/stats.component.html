@@ -1,4 +1,5 @@
-<div class="stats-container">
+<div class="stats-container" *ngIf="stats$ | async as stats; else loading">
+
   <div class="stats-box consumption-box">
     <div class="stats-label">Consumption</div>
     <div class="stats-value">{{ stats.consumption }}</div>
@@ -7,7 +8,7 @@
 
   <div class="stats-box cost-box">
     <div class="stats-label">Cost</div>
-    <div class="stats-value">{{ stats.cost }}</div>
+    <div class="stats-value">{{ stats.cost.toString().replace('.', ',') }}</div>
     <div class="stats-unit">USD</div>
   </div>
 
@@ -16,4 +17,11 @@
     <div class="stats-value">{{ stats.co2 }}</div>
     <div class="stats-unit">kg CO₂</div>
   </div>
+
 </div>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <p>Calculating statistics...</p>
+  </div>
+</ng-template>
