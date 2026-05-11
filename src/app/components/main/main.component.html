@@ -35,10 +35,42 @@
               " (click)="updateChart(60)">
         Last 60 days
       </button>
+      <button class="
+                h5
+                inline-block
+                shadow-2
+                pl2
+                pr2
+                pt1
+                pb1
+                roundedMore
+                border-grey
+                bg-blue
+                white
+                bold
+              " (click)="updateChart(90)">
+        Last 90 days
+      </button>
+      <button class="
+                h5
+                inline-block
+                shadow-2
+                pl2
+                pr2
+                pt1
+                pb1
+                roundedMore
+                border-grey
+                bg-blue
+                white
+                bold
+              " (click)="updateChart(120)">
+        Last 120 days
+      </button>
     </section>
     <section></section>
     <section class="chartHeight mb3">
-      <app-chart [chartData]="chartData"></app-chart>
+      <app-chart [chartData]="chartData$ | async"></app-chart>
     </section>
     <section>
       <app-stats></app-stats>
