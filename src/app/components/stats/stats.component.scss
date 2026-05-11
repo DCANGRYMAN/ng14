@@ -1,0 +1,93 @@
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.stats-box {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.consumption-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  .stats-label,
+  .stats-unit {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .stats-value {
+    color: #ffffff;
+  }
+}
+
+.cost-box {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  
+  .stats-label,
+  .stats-unit {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .stats-value {
+    color: #ffffff;
+  }
+}
+
+.co2-box {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  
+  .stats-label,
+  .stats-unit {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .stats-value {
+    color: #ffffff;
+  }
+}
+
+.stats-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stats-value {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.stats-unit {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .stats-value {
+    font-size: 24px;
+  }
+}
