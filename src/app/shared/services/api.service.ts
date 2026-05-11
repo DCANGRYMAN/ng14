@@ -1,11 +1,14 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, of } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class ApiService {
-  getReadings$ = new BehaviorSubject(null);
+  /*   constructor(private http: HttpClient) {}
 
-  constructor() {}
+  getData<T>() {
+    return this.http.get<T>("http://localhost:3000/readings");
+  } */
 }
